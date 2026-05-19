@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bella Pizza - O Verdadeiro Sabor Italiano com um Toque Moderno</title>
+    <meta name="description" content="Experimente as melhores pizzas artesanais feitas com ingredientes selecionados. Peça online de forma rápida e prática!">
+    
+    <!-- Google Fonts: Outfit (Títulos) & Plus Jakarta Sans (Texto) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i data-lucide="pizza" class="logo-icon"></i>
+                <span>Bella<span>Pizza</span></span>
+            </a>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active">Início</a>
+                <a href="#cardapio" class="nav-link">Cardápio</a>
+                <a href="#sobre" class="nav-link">Sobre Nós</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-box">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="pizza-search" placeholder="Buscar pizza...">
+                </div>
+                
+                <button id="cart-toggle" class="btn-cart">
+                    <i data-lucide="shopping-bag"></i>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg-glow"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="hero-tagline"><i data-lucide="sparkles"></i> Pizza Artesanal Premium</span>
+                <h1>A arte de criar a <span class="highlight">Pizza Perfeita</span></h1>
+                <p>Ingredientes frescos de produtores locais, fermentação lenta e muito amor em cada fatia. Peça agora e receba em sua casa em tempo recorde!</p>
+                <div class="hero-actions">
+                    <a href="#cardapio" class="btn btn-primary">Ver Cardápio <i data-lucide="arrow-right"></i></a>
+                    <a href="#sobre" class="btn btn-secondary">Nossa História</a>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="pizzas/t pizza pepperoni.png" alt="Deliciosa Pizza Pepperoni Bella Pizza" class="hero-image">
+                <div class="floating-badge badge-1">
+                    <i data-lucide="clock"></i>
+                    <div>
+                        <strong>Entrega Rápida</strong>
+                        <span>30-40 min</span>
+                    </div>
+                </div>
+                <div class="floating-badge badge-2">
+                    <i data-lucide="star" class="fill-gold"></i>
+                    <div>
+                        <strong>4.9 Estrelas</strong>
+                        <span>Mais de 10k avaliações</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <main class="container main-content" id="cardapio">
+        <section class="menu-section">
+            <div class="section-header">
+                <h2>Nosso Cardápio</h2>
+                <p>Selecione sua categoria favorita ou explore nossas receitas autorais e clássicas.</p>
+                
+                <!-- Category Filters -->
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="all">
+                        <i data-lucide="layout-grid"></i> Todas
+                    </button>
+                    <button class="filter-btn" data-category="salgada">
+                        <i data-lucide="flame"></i> Salgadas
+                    </button>
+                    <button class="filter-btn" data-category="doce">
+                        <i data-lucide="cookie"></i> Doces
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pizzas Grid -->
+            <div class="pizzas-grid" id="pizzas-grid">
+                <!-- Dynamic cards will be rendered here -->
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Preparando o forno e carregando sabores...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="sobre">
+            <div class="about-container">
+                <div class="about-image">
+                    <div class="glass-photo-card">
+                        <img src="pizzas/t pizza margherita.png" alt="Ingredientes frescos">
+                        <div class="about-experience">
+                            <span class="exp-years">12</span>
+                            <span class="exp-text">Anos de<br>Tradição</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <span class="about-tag">Tradição & Qualidade</span>
+                    <h2>Feito à mão, com paixão italiana</h2>
+                    <p>Nossa história começou no coração da Itália, trazendo receitas passadas de geração em geração. Usamos apenas farinha italiana tipo 00 e molho de tomate pelado San Marzano para garantir a autenticidade e a leveza de nossa massa.</p>
+                    <p>Cada pizza passa por um processo de maturação de 48 horas, o que garante uma massa aerada, leve e incrivelmente saborosa ao sair de nosso forno a lenha a 450°C.</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i data-lucide="shield-check"></i>
+                            <div>
+                                <h4>Ingredientes 100% Naturais</h4>
+                                <p>Sem conservantes ou corantes artificiais.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i data-lucide="chef-hat"></i>
+                            <div>
+                                <h4>Pizzaiolos Especialistas</h4>
+                                <p>Mestres dedicados à excelência de cada receita.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <i data-lucide="pizza" class="logo-icon"></i>
+                    <span>Bella<span>Pizza</span></span>
+                </a>
+                <p>O verdadeiro sabor da tradição italiana com a conveniência moderna na sua mesa.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-info">
+                <h3>Funcionamento</h3>
+                <ul>
+                    <li><i data-lucide="calendar"></i> Terça a Domingo</li>
+                    <li><i data-lucide="clock"></i> 18:00h às 23:30h</li>
+                    <li><i data-lucide="map-pin"></i> Av. Principal, 1230 - Centro</li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Fale Conosco</h3>
+                <ul>
+                    <li><i data-lucide="phone"></i> (11) 99999-8888</li>
+                    <li><i data-lucide="mail"></i> contato@bellapizza.com.br</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-content">
+                <p>&copy; 2026 Bella Pizza. Todos os direitos reservados.</p>
+                <p>Desenvolvido com <i data-lucide="heart" class="fill-red"></i> para os amantes de pizza.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Seu Pedido</h3>
+            <button id="cart-close" class="btn-close">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        
+        <div class="cart-items" id="cart-items">
+            <!-- Dynamic cart items will be rendered here -->
+            <div class="empty-cart-state">
+                <i data-lucide="shopping-cart"></i>
+                <p>Seu carrinho está vazio</p>
+                <span>Adicione uma deliciosa pizza para começar!</span>
+            </div>
+        </div>
+        
+        <div class="cart-footer" id="cart-footer">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">R$ 0,00</span>
+            </div>
+            <div class="summary-row">
+                <span>Taxa de Entrega</span>
+                <span id="cart-delivery">R$ 7,00</span>
+            </div>
+            <div class="summary-row total-row">
+                <span>Total</span>
+                <span id="cart-total">R$ 7,00</span>
+            </div>
+            
+            <button class="btn btn-primary btn-block" id="btn-checkout">
+                Finalizar Pedido <i data-lucide="check"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Pizza Customization Modal -->
+    <div class="modal-overlay" id="pizza-modal">
+        <div class="modal-container">
+            <button class="btn-close modal-close" id="modal-close">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-body">
+                <div class="modal-image-wrapper">
+                    <img id="modal-pizza-img" src="" alt="">
+                </div>
+                <div class="modal-details">
+                    <span class="modal-pizza-category" id="modal-pizza-category">Salgada</span>
+                    <h2 id="modal-pizza-name">Nome da Pizza</h2>
+                    <p class="modal-pizza-description" id="modal-pizza-description">Descrição completa dos ingredientes.</p>
+                    
+                    <div class="modal-option-section">
+                        <h4>Escolha o Tamanho</h4>
+                        <div class="size-options">
+                            <label class="size-option">
+                                <input type="radio" name="pizza-size" value="P" data-multiplier="0.8">
+                                <div class="size-box">
+                                    <span class="size-letter">P</span>
+                                    <span class="size-label">Pequena (4 fatias)</span>
+                                </div>
+                            </label>
+                            <label class="size-option">
+                                <input type="radio" name="pizza-size" value="M" data-multiplier="1.0" checked>
+                                <div class="size-box">
+                                    <span class="size-letter">M</span>
+                                    <span class="size-label">Média (6 fatias)</span>
+                                </div>
+                            </label>
+                            <label class="size-option">
+                                <input type="radio" name="pizza-size" value="G" data-multiplier="1.25">
+                                <div class="size-box">
+                                    <span class="size-letter">G</span>
+                                    <span class="size-label">Grande (8 fatias)</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-action-row">
+                        <div class="price-container">
+                            <span class="price-label">Preço</span>
+                            <span class="pizza-price" id="modal-pizza-price">R$ 0,00</span>
+                        </div>
+                        <button class="btn btn-primary" id="btn-add-to-cart">
+                            Adicionar ao Pedido <i data-lucide="shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay success-modal-overlay" id="success-modal">
+        <div class="success-card">
+            <div class="success-icon-circle">
+                <i data-lucide="check-circle-2"></i>
+            </div>
+            <h2>Pedido Confirmado!</h2>
+            <p>Sua pizza maravilhosa já está sendo preparada com muito carinho por nossos pizzaiolos e em breve sairá para entrega.</p>
+            <div class="order-time-est">
+                <i data-lucide="clock"></i>
+                <div>
+                    <span>Tempo de espera estimado</span>
+                    <strong>30 - 45 minutos</strong>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="btn-success-close">Excelente!</button>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+    <script>
+        // Initialize Lucide Icons immediately
+        lucide.createIcons();
+    </script>
+</body>
+</html>
