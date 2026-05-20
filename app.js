@@ -68,6 +68,13 @@ let selectedPizza = null;
 let currentSizeMultiplier = 1.0;
 let currentSize = 'M';
 
+// Meio a Meio Builder State
+let halfLeftPizza = PIZZA_DATA[0];  // Default Pepperoni
+let halfRightPizza = PIZZA_DATA[1]; // Default Margherita
+let halfActiveEditing = 'left';    // 'left' or 'right'
+let halfCurrentSize = 'M';
+let halfSizeMultiplier = 1.0;
+
 /* ==========================================================================
    DOM Elements
    ========================================================================== */
@@ -98,6 +105,23 @@ const modalPizzaPrice = document.getElementById('modal-pizza-price');
 const sizeRadios = document.querySelectorAll('input[name="pizza-size"]');
 const btnAddToCart = document.getElementById('btn-add-to-cart');
 
+// Meio a Meio Modal DOM
+const halfPizzaModal = document.getElementById('half-pizza-modal');
+const halfModalClose = document.getElementById('half-modal-close');
+const pizzaHalfLeftTrigger = document.getElementById('pizza-half-left-trigger');
+const pizzaHalfRightTrigger = document.getElementById('pizza-half-right-trigger');
+const halfPizzaImgLeft = document.getElementById('half-pizza-img-left');
+const halfPizzaImgRight = document.getElementById('half-pizza-img-right');
+const btnTabLeft = document.getElementById('btn-tab-left');
+const btnTabRight = document.getElementById('btn-tab-right');
+const summaryLeft = document.getElementById('summary-left');
+const summaryRight = document.getElementById('summary-right');
+const summaryLeftFlavor = document.getElementById('summary-left-flavor');
+const summaryRightFlavor = document.getElementById('summary-right-flavor');
+const halfPizzaPrice = document.getElementById('half-pizza-price');
+const btnAddHalfToCart = document.getElementById('btn-add-half-to-cart');
+const halfSizeRadios = document.querySelectorAll('input[name="half-pizza-size"]');
+
 // Success Modal DOM
 const successModal = document.getElementById('success-modal');
 const btnSuccessClose = document.getElementById('btn-success-close');
@@ -106,15 +130,15 @@ const btnSuccessClose = document.getElementById('btn-success-close');
    Core Functions
    ========================================================================== */
 
+// Cached BRL currency formatter — avoid re-creating on every formatCurrency() call
+const _brlFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
 /**
  * Format currency to Brazilian Real format
  * @param {number} value 
  */
 function formatCurrency(value) {
-    return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    }).format(value);
+    return _brlFormatter.format(value);
 }
 
 /**
@@ -123,10 +147,32 @@ function formatCurrency(value) {
 function renderPizzas() {
     pizzasGrid.innerHTML = '';
     
+    // If the active category is Meio a Meio, render only the promotion builder card
+    if (activeCategory === 'meio-a-meio') {
+        const promoCard = document.createElement('div');
+        promoCard.className = 'pizza-card meio-a-meio-promo';
+        promoCard.dataset.action = 'half';
+        promoCard.innerHTML = `
+            <div class="promo-images">
+                <img src="${PIZZA_DATA[0].image}" class="promo-img promo-img-left" alt="">
+                <img src="${PIZZA_DATA[1].image}" class="promo-img promo-img-right" alt="">
+            </div>
+            <h3>Monte sua Meio a Meio</h3>
+            <p>Combine dois de seus sabores favoritos em uma única pizza de forma simples e rápida!</p>
+            <button class="btn btn-promo">
+                Montar Agora <i data-lucide="sparkles"></i>
+            </button>
+        `;
+        pizzasGrid.appendChild(promoCard);
+        lucide.createIcons();
+        return;
+    }
+    
+    const lowerSearch = searchQuery.toLowerCase();
     const filtered = PIZZA_DATA.filter(pizza => {
         const matchesCategory = activeCategory === 'all' || pizza.category === activeCategory;
-        const matchesSearch = pizza.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                              pizza.description.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = pizza.name.toLowerCase().includes(lowerSearch) ||
+                              pizza.description.toLowerCase().includes(lowerSearch);
         return matchesCategory && matchesSearch;
     });
 
@@ -142,21 +188,37 @@ function renderPizzas() {
         return;
     }
 
+    // Use a DocumentFragment to batch all DOM writes into a single reflow
+    const fragment = document.createDocumentFragment();
+
+    // Prepend the promo card if browsing all categories and no search query is active
+    if (activeCategory === 'all' && searchQuery === '') {
+        const promoCard = document.createElement('div');
+        promoCard.className = 'pizza-card meio-a-meio-promo';
+        promoCard.dataset.action = 'half';
+        promoCard.innerHTML = `
+            <div class="promo-images">
+                <img src="${PIZZA_DATA[0].image}" class="promo-img promo-img-left" alt="">
+                <img src="${PIZZA_DATA[1].image}" class="promo-img promo-img-right" alt="">
+            </div>
+            <h3>Monte sua Meio a Meio</h3>
+            <p>Combine dois de seus sabores favoritos em uma única pizza de forma simples e rápida!</p>
+            <button class="btn btn-promo">
+                Montar Agora <i data-lucide="sparkles"></i>
+            </button>
+        `;
+        fragment.appendChild(promoCard);
+    }
+
     filtered.forEach(pizza => {
         const card = document.createElement('div');
         card.className = 'pizza-card';
-        
-        // Add action listener to open modal
-        card.addEventListener('click', (e) => {
-            // Prevent opening modal if clicking inside btn-add if we decide to change behavior,
-            // but clicking anywhere on the card is the main action to customize.
-            openPizzaModal(pizza);
-        });
+        card.dataset.id = pizza.id; // used by delegated click handler
 
         card.innerHTML = `
             <div class="card-img-wrapper">
                 <span class="card-tag">${pizza.category}</span>
-                <img src="${pizza.image}" alt="${pizza.name}">
+                <img src="${pizza.image}" alt="${pizza.name}" loading="lazy">
             </div>
             <h3>${pizza.name}</h3>
             <p>${pizza.description}</p>
@@ -168,8 +230,11 @@ function renderPizzas() {
             </div>
         `;
         
-        pizzasGrid.appendChild(card);
+        fragment.appendChild(card);
     });
+
+    // Single DOM write — all cards inserted at once, triggering only one reflow
+    pizzasGrid.appendChild(fragment);
 
     // Re-initialize icons inside dynamic elements
     lucide.createIcons();
@@ -184,8 +249,8 @@ function openPizzaModal(pizza) {
     currentSize = 'M';
     currentSizeMultiplier = 1.0;
     
-    // Reset radio selection to 'M'
-    document.querySelector('input[name="pizza-size"][value="M"]').checked = true;
+    // Reset radio selection to 'M' — use cached NodeList, no live DOM query
+    sizeRadios.forEach(r => { if (r.value === 'M') r.checked = true; });
 
     // Update modal contents
     modalPizzaImg.src = pizza.image;
@@ -315,11 +380,24 @@ function updateCartUI() {
         if (item.size === 'M') sizeLabelText = 'Média';
         if (item.size === 'G') sizeLabelText = 'Grande';
 
+        let thumbnailHtml = `<img class="cart-item-img" src="${item.image}" alt="${item.name}">`;
+        let labelDetails = sizeLabelText;
+
+        if (item.isHalfAndHalf) {
+            thumbnailHtml = `
+                <div class="cart-item-img-split-wrapper">
+                    <img class="cart-item-split-img left-half" src="${item.leftImage}" alt="">
+                    <img class="cart-item-split-img right-half" src="${item.rightImage}" alt="">
+                </div>
+            `;
+            labelDetails = `${sizeLabelText} <br> <span style="font-size: 10px; color: var(--text-muted)">Esq: ${item.leftName.split(' ')[0]} / Dir: ${item.rightName.split(' ')[0]}</span>`;
+        }
+
         cartItemEl.innerHTML = `
-            <img class="cart-item-img" src="${item.image}" alt="${item.name}">
+            ${thumbnailHtml}
             <div class="cart-item-info">
                 <h4>${item.name}</h4>
-                <span class="cart-item-size">${sizeLabelText}</span>
+                <span class="cart-item-size">${labelDetails}</span>
                 <div class="cart-item-price">${formatCurrency(item.finalPrice)}</div>
             </div>
             <div class="cart-item-actions">
@@ -377,6 +455,158 @@ window.removeCartItem = function(cartItemId) {
 };
 
 /* ==========================================================================
+   Meio a Meio Builder Core Functions
+   ========================================================================== */
+
+/**
+ * Open Meio a Meio Customization Modal
+ */
+function openHalfPizzaModal() {
+    // Reset state
+    halfLeftPizza = PIZZA_DATA[0];  // Pepperoni
+    halfRightPizza = PIZZA_DATA[1]; // Margherita
+    halfActiveEditing = 'left';
+    halfCurrentSize = 'M';
+    halfSizeMultiplier = 1.0;
+    
+    // Reset size radio buttons
+    document.querySelector('input[name="half-pizza-size"][value="M"]').checked = true;
+    
+    // Update Modal UI
+    updateHalfPizzaModalUI();
+    
+    // Open modal
+    halfPizzaModal.classList.add('open');
+}
+
+/**
+ * Close Meio a Meio Modal
+ */
+function closeHalfPizzaModal() {
+    halfPizzaModal.classList.remove('open');
+}
+
+/**
+ * Get active flavor based on left or right half focus
+ */
+function getCurrentSelectedFlavorForActiveSide() {
+    return halfActiveEditing === 'left' ? halfLeftPizza : halfRightPizza;
+}
+
+/**
+ * Choose a flavor for the focused side
+ * @param {Object} pizza 
+ */
+function selectHalfFlavor(pizza) {
+    let sideImg = null;
+    if (halfActiveEditing === 'left') {
+        halfLeftPizza = pizza;
+        sideImg = halfPizzaImgLeft;
+    } else {
+        halfRightPizza = pizza;
+        sideImg = halfPizzaImgRight;
+    }
+    
+    // Dynamic smooth transition for the updated half image
+    sideImg.classList.remove('animate-change');
+    void sideImg.offsetWidth; // Trigger reflow to restart CSS animation
+    sideImg.classList.add('animate-change');
+    
+    // Update UI elements
+    updateHalfPizzaModalUI();
+}
+
+/**
+ * Update Meio a Meio modal elements (images, details, focus highlights, price)
+ */
+function updateHalfPizzaModalUI() {
+    // Update images
+    halfPizzaImgLeft.src = halfLeftPizza.image;
+    halfPizzaImgLeft.alt = halfLeftPizza.name;
+    halfPizzaImgRight.src = halfRightPizza.image;
+    halfPizzaImgRight.alt = halfRightPizza.name;
+    
+    // Update summaries
+    summaryLeftFlavor.textContent = halfLeftPizza.name;
+    document.getElementById('summary-left-ingredients').textContent = halfLeftPizza.description;
+    summaryRightFlavor.textContent = halfRightPizza.name;
+    document.getElementById('summary-right-ingredients').textContent = halfRightPizza.description;
+    
+    // Set active side highlights
+    if (halfActiveEditing === 'left') {
+        pizzaHalfLeftTrigger.classList.add('active');
+        pizzaHalfRightTrigger.classList.remove('active');
+        btnTabLeft.classList.add('active');
+        btnTabRight.classList.remove('active');
+        summaryLeft.classList.add('active');
+        summaryRight.classList.remove('active');
+    } else {
+        pizzaHalfLeftTrigger.classList.remove('active');
+        pizzaHalfRightTrigger.classList.add('active');
+        btnTabLeft.classList.remove('active');
+        btnTabRight.classList.add('active');
+        summaryLeft.classList.remove('active');
+        summaryRight.classList.add('active');
+    }
+    
+    // Pricing calculation (Brazilian standard: Max value of the two halves)
+    const priceLeft = halfLeftPizza.price;
+    const priceRight = halfRightPizza.price;
+    const basePrice = Math.max(priceLeft, priceRight);
+    const finalPrice = basePrice * halfSizeMultiplier;
+    
+    halfPizzaPrice.textContent = formatCurrency(finalPrice);
+}
+
+/**
+ * Toggle focused half side
+ * @param {string} side 
+ */
+function setHalfActiveEditing(side) {
+    halfActiveEditing = side;
+    updateHalfPizzaModalUI();
+}
+
+/**
+ * Add custom Meio a Meio pizza to shopping cart
+ */
+function addHalfPizzaToCart() {
+    const priceLeft = halfLeftPizza.price;
+    const priceRight = halfRightPizza.price;
+    const basePrice = Math.max(priceLeft, priceRight);
+    const finalPrice = basePrice * halfSizeMultiplier;
+    
+    const cartItemId = `half-${halfLeftPizza.id}-${halfRightPizza.id}-${halfCurrentSize}`;
+    const existingItem = cart.find(item => item.cartItemId === cartItemId);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            cartItemId: cartItemId,
+            id: `half-${halfLeftPizza.id}-${halfRightPizza.id}`,
+            name: `Meio a Meio: ${halfLeftPizza.name.split(' ')[0]} / ${halfRightPizza.name.split(' ')[0]}`,
+            size: halfCurrentSize,
+            basePrice: basePrice,
+            finalPrice: finalPrice,
+            isHalfAndHalf: true,
+            leftImage: halfLeftPizza.image,
+            rightImage: halfRightPizza.image,
+            leftName: halfLeftPizza.name,
+            rightName: halfRightPizza.name,
+            quantity: 1
+        });
+    }
+    
+    closeHalfPizzaModal();
+    updateCartUI();
+    
+    setTimeout(() => {
+        openCart();
+    }, 300);
+}
+
+/* ==========================================================================
    Event Listeners
    ========================================================================== */
 
@@ -390,10 +620,31 @@ filterButtons.forEach(btn => {
     });
 });
 
-// Search input
+// Single delegated click handler for the entire pizza grid
+// Handles both regular pizza cards (data-id) and the meio-a-meio promo (data-action=half)
+pizzasGrid.addEventListener('click', (e) => {
+    const card = e.target.closest('.pizza-card');
+    if (!card) return;
+
+    if (card.dataset.action === 'half') {
+        openHalfPizzaModal();
+        return;
+    }
+
+    if (card.dataset.id) {
+        const pizza = PIZZA_DATA.find(p => p.id === card.dataset.id);
+        if (pizza) openPizzaModal(pizza);
+    }
+});
+
+// Search input — debounced to avoid rebuilding DOM on every keypress
+let _searchDebounceTimer = null;
 searchInput.addEventListener('input', (e) => {
-    searchQuery = e.target.value;
-    renderPizzas();
+    clearTimeout(_searchDebounceTimer);
+    _searchDebounceTimer = setTimeout(() => {
+        searchQuery = e.target.value;
+        renderPizzas();
+    }, 180);
 });
 
 // Cart sidebar togglers
@@ -418,6 +669,109 @@ sizeRadios.forEach(radio => {
 
 // Add to cart click
 btnAddToCart.addEventListener('click', addSelectedPizzaToCart);
+
+// Wheel and Touch swipe event controller for scroll-to-change flavor (Dodo Pizza Style)
+let lastWheelTime = 0;
+const wheelCooldown = 150; // ms between steps to keep it fast and responsive
+
+function handleHalfPizzaWheel(e) {
+    e.preventDefault(); // Lock main page/modal body scroll
+    
+    const now = Date.now();
+    if (now - lastWheelTime < wheelCooldown) return;
+    lastWheelTime = now;
+    
+    const activePizza = getCurrentSelectedFlavorForActiveSide();
+    let index = PIZZA_DATA.findIndex(p => p.id === activePizza.id);
+    
+    if (e.deltaY > 0) {
+        // Scroll Down -> Next flavor
+        index = (index + 1) % PIZZA_DATA.length;
+    } else if (e.deltaY < 0) {
+        // Scroll Up -> Previous flavor
+        index = (index - 1 + PIZZA_DATA.length) % PIZZA_DATA.length;
+    }
+    
+    selectHalfFlavor(PIZZA_DATA[index]);
+}
+
+// Bind wheel scroll and touch swipe listeners on the pizza preview container
+const halfPizzaVisualContainer = document.querySelector('.half-pizza-visual-container');
+if (halfPizzaVisualContainer) {
+    halfPizzaVisualContainer.addEventListener('wheel', handleHalfPizzaWheel, { passive: false });
+
+    // Mobile Touch Swipe support on the pizza container
+    let touchStartY = 0;
+    halfPizzaVisualContainer.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    halfPizzaVisualContainer.addEventListener('touchmove', (e) => {
+        const touchEndY = e.touches[0].clientY;
+        const diffY = touchStartY - touchEndY;
+        
+        if (Math.abs(diffY) > 35) {
+            e.preventDefault();
+            const activePizza = getCurrentSelectedFlavorForActiveSide();
+            let index = PIZZA_DATA.findIndex(p => p.id === activePizza.id);
+            
+            if (diffY > 0) {
+                index = (index + 1) % PIZZA_DATA.length;
+            } else {
+                index = (index - 1 + PIZZA_DATA.length) % PIZZA_DATA.length;
+            }
+            
+            selectHalfFlavor(PIZZA_DATA[index]);
+            touchStartY = touchEndY; // reset for continuous smooth swiping
+        }
+    }, { passive: false });
+}
+
+// Meio a Meio Modal Listeners
+halfModalClose.addEventListener('click', closeHalfPizzaModal);
+halfPizzaModal.addEventListener('click', (e) => {
+    if (e.target === halfPizzaModal) closeHalfPizzaModal();
+});
+
+// Helper to cycle flavors on click
+function cycleHalfFlavor(side) {
+    const currentPizza = side === 'left' ? halfLeftPizza : halfRightPizza;
+    let index = PIZZA_DATA.findIndex(p => p.id === currentPizza.id);
+    index = (index + 1) % PIZZA_DATA.length;
+    selectHalfFlavor(PIZZA_DATA[index]);
+}
+
+// Direct interactive half image clicks
+pizzaHalfLeftTrigger.addEventListener('click', () => {
+    if (halfActiveEditing === 'left') {
+        cycleHalfFlavor('left');
+    } else {
+        setHalfActiveEditing('left');
+    }
+});
+pizzaHalfRightTrigger.addEventListener('click', () => {
+    if (halfActiveEditing === 'right') {
+        cycleHalfFlavor('right');
+    } else {
+        setHalfActiveEditing('right');
+    }
+});
+
+// Toggle tabs click
+btnTabLeft.addEventListener('click', () => setHalfActiveEditing('left'));
+btnTabRight.addEventListener('click', () => setHalfActiveEditing('right'));
+
+// Meio a Meio Size Options
+halfSizeRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        halfCurrentSize = e.target.value;
+        halfSizeMultiplier = parseFloat(e.target.dataset.multiplier);
+        updateHalfPizzaModalUI();
+    });
+});
+
+// Add Meio a Meio to cart click
+btnAddHalfToCart.addEventListener('click', addHalfPizzaToCart);
 
 // Checkout flow
 btnCheckout.addEventListener('click', () => {

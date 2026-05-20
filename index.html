@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bella Pizza - O Verdadeiro Sabor Italiano com um Toque Moderno</title>
-    <meta name="description" content="Experimente as melhores pizzas artesanais feitas com ingredientes selecionados. Peça online de forma rápida e prática!">
-    
+    <meta name="description"
+        content="Experimente as melhores pizzas artesanais feitas com ingredientes selecionados. Peça online de forma rápida e prática!">
+
     <!-- Google Fonts: Outfit (Títulos) & Plus Jakarta Sans (Texto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Header / Navbar -->
     <header class="main-header">
@@ -25,19 +30,19 @@
                 <i data-lucide="pizza" class="logo-icon"></i>
                 <span>Bella<span>Pizza</span></span>
             </a>
-            
+
             <nav class="nav-menu">
                 <a href="#" class="nav-link active">Início</a>
                 <a href="#cardapio" class="nav-link">Cardápio</a>
                 <a href="#sobre" class="nav-link">Sobre Nós</a>
             </nav>
-            
+
             <div class="header-actions">
                 <div class="search-box">
                     <i data-lucide="search" class="search-icon"></i>
                     <input type="text" id="pizza-search" placeholder="Buscar pizza...">
                 </div>
-                
+
                 <button id="cart-toggle" class="btn-cart">
                     <i data-lucide="shopping-bag"></i>
                     <span class="cart-badge" id="cart-count">0</span>
@@ -53,7 +58,8 @@
             <div class="hero-content">
                 <span class="hero-tagline"><i data-lucide="sparkles"></i> Pizza Artesanal Premium</span>
                 <h1>A arte de criar a <span class="highlight">Pizza Perfeita</span></h1>
-                <p>Ingredientes frescos de produtores locais, fermentação lenta e muito amor em cada fatia. Peça agora e receba em sua casa em tempo recorde!</p>
+                <p>Ingredientes frescos de produtores locais, fermentação lenta e muito amor em cada fatia. Peça agora e
+                    receba em sua casa em tempo recorde!</p>
                 <div class="hero-actions">
                     <a href="#cardapio" class="btn btn-primary">Ver Cardápio <i data-lucide="arrow-right"></i></a>
                     <a href="#sobre" class="btn btn-secondary">Nossa História</a>
@@ -85,7 +91,7 @@
             <div class="section-header">
                 <h2>Nosso Cardápio</h2>
                 <p>Selecione sua categoria favorita ou explore nossas receitas autorais e clássicas.</p>
-                
+
                 <!-- Category Filters -->
                 <div class="category-filters">
                     <button class="filter-btn active" data-category="all">
@@ -96,6 +102,9 @@
                     </button>
                     <button class="filter-btn" data-category="doce">
                         <i data-lucide="cookie"></i> Doces
+                    </button>
+                    <button class="filter-btn" data-category="meio-a-meio">
+                        <i data-lucide="columns-2"></i> Meio a Meio
                     </button>
                 </div>
             </div>
@@ -125,8 +134,11 @@
                 <div class="about-content">
                     <span class="about-tag">Tradição & Qualidade</span>
                     <h2>Feito à mão, com paixão italiana</h2>
-                    <p>Nossa história começou no coração da Itália, trazendo receitas passadas de geração em geração. Usamos apenas farinha italiana tipo 00 e molho de tomate pelado San Marzano para garantir a autenticidade e a leveza de nossa massa.</p>
-                    <p>Cada pizza passa por um processo de maturação de 48 horas, o que garante uma massa aerada, leve e incrivelmente saborosa ao sair de nosso forno a lenha a 450°C.</p>
+                    <p>Nossa história começou no coração da Itália, trazendo receitas passadas de geração em geração.
+                        Usamos apenas farinha italiana tipo 00 e molho de tomate pelado San Marzano para garantir a
+                        autenticidade e a leveza de nossa massa.</p>
+                    <p>Cada pizza passa por um processo de maturação de 48 horas, o que garante uma massa aerada, leve e
+                        incrivelmente saborosa ao sair de nosso forno a lenha a 450°C.</p>
                     <div class="features-list">
                         <div class="feature-item">
                             <i data-lucide="shield-check"></i>
@@ -163,7 +175,7 @@
                     <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
                 </div>
             </div>
-            
+
             <div class="footer-info">
                 <h3>Funcionamento</h3>
                 <ul>
@@ -172,7 +184,7 @@
                     <li><i data-lucide="map-pin"></i> Av. Principal, 1230 - Centro</li>
                 </ul>
             </div>
-            
+
             <div class="footer-contact">
                 <h3>Fale Conosco</h3>
                 <ul>
@@ -184,7 +196,6 @@
         <div class="footer-bottom">
             <div class="container footer-bottom-content">
                 <p>&copy; 2026 Bella Pizza. Todos os direitos reservados.</p>
-                <p>Desenvolvido com <i data-lucide="heart" class="fill-red"></i> para os amantes de pizza.</p>
             </div>
         </div>
     </footer>
@@ -198,7 +209,7 @@
                 <i data-lucide="x"></i>
             </button>
         </div>
-        
+
         <div class="cart-items" id="cart-items">
             <!-- Dynamic cart items will be rendered here -->
             <div class="empty-cart-state">
@@ -207,7 +218,7 @@
                 <span>Adicione uma deliciosa pizza para começar!</span>
             </div>
         </div>
-        
+
         <div class="cart-footer" id="cart-footer">
             <div class="summary-row">
                 <span>Subtotal</span>
@@ -221,7 +232,7 @@
                 <span>Total</span>
                 <span id="cart-total">R$ 7,00</span>
             </div>
-            
+
             <button class="btn btn-primary btn-block" id="btn-checkout">
                 Finalizar Pedido <i data-lucide="check"></i>
             </button>
@@ -241,8 +252,9 @@
                 <div class="modal-details">
                     <span class="modal-pizza-category" id="modal-pizza-category">Salgada</span>
                     <h2 id="modal-pizza-name">Nome da Pizza</h2>
-                    <p class="modal-pizza-description" id="modal-pizza-description">Descrição completa dos ingredientes.</p>
-                    
+                    <p class="modal-pizza-description" id="modal-pizza-description">Descrição completa dos ingredientes.
+                    </p>
+
                     <div class="modal-option-section">
                         <h4>Escolha o Tamanho</h4>
                         <div class="size-options">
@@ -269,13 +281,113 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="modal-action-row">
                         <div class="price-container">
                             <span class="price-label">Preço</span>
                             <span class="pizza-price" id="modal-pizza-price">R$ 0,00</span>
                         </div>
                         <button class="btn btn-primary" id="btn-add-to-cart">
+                            Adicionar ao Pedido <i data-lucide="shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pizza Meio a Meio Customization Modal -->
+    <div class="modal-overlay" id="half-pizza-modal">
+        <div class="modal-container half-modal-container">
+            <button class="btn-close modal-close" id="half-modal-close">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-body half-modal-body">
+                <!-- Visual Pizza Builder Preview (Left / Right split) -->
+                <div class="half-pizza-visual-container">
+                    <div class="half-pizza-preview-wrapper">
+                        <!-- Left Half Image -->
+                        <div class="pizza-half-side left-side active" id="pizza-half-left-trigger">
+                            <img id="half-pizza-img-left" src="pizzas/t pizza pepperoni.png" alt="Metade Esquerda">
+                            <div class="half-indicator-tag">Esquerda (Lado A)</div>
+                        </div>
+                        <!-- Right Half Image -->
+                        <div class="pizza-half-side right-side" id="pizza-half-right-trigger">
+                            <img id="half-pizza-img-right" src="pizzas/t pizza margherita.png" alt="Metade Direita">
+                            <div class="half-indicator-tag">Direita (Lado B)</div>
+                        </div>
+                        <!-- Divider Line -->
+                        <div class="half-pizza-divider-line"></div>
+                    </div>
+                    <p class="half-pizza-tip"><i data-lucide="mouse-pointer-click"></i> Clique na pizza ou gire o scroll do mouse <i data-lucide="mouse-pointer"></i> para trocar de sabor!</p>
+                </div>
+
+                <!-- Customization Details -->
+                <div class="modal-details half-modal-details">
+                    <span class="modal-pizza-category">Pizza Especial</span>
+                    <h2>Monte sua Meio a Meio</h2>
+                    <p class="modal-pizza-description">Selecione uma metade e clique ou role o scroll do mouse sobre ela para mudar o sabor.</p>
+
+                    <!-- Half Toggle Tabs -->
+                    <div class="half-toggle-buttons">
+                        <button class="half-tab-btn active" id="btn-tab-left" data-side="left">
+                            <i data-lucide="arrow-left-to-line"></i> Metade Esquerda
+                        </button>
+                        <button class="half-tab-btn" id="btn-tab-right" data-side="right">
+                            Metade Direita <i data-lucide="arrow-right-to-line"></i>
+                        </button>
+                    </div>
+
+                    <!-- Selected Flavors Summary -->
+                    <div class="selected-halves-summary">
+                        <div class="half-summary-item left-item active" id="summary-left">
+                            <div class="summary-header">
+                                <span class="dot-indicator"></span>
+                                <span class="side-name">Esquerda:</span>
+                                <strong id="summary-left-flavor">Pepperoni Clássico</strong>
+                            </div>
+                            <p class="summary-ingredients" id="summary-left-ingredients">Carregando ingredientes...</p>
+                        </div>
+                        <div class="half-summary-item right-item" id="summary-right">
+                            <div class="summary-header">
+                                <span class="dot-indicator"></span>
+                                <span class="side-name">Direita:</span>
+                                <strong id="summary-right-flavor">Margherita Tradicional</strong>
+                            </div>
+                            <p class="summary-ingredients" id="summary-right-ingredients">Carregando ingredientes...</p>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Size options -->
+                    <div class="modal-option-section">
+                        <h4>Escolha o Tamanho</h4>
+                        <div class="size-options">
+                            <label class="size-option">
+                                <input type="radio" name="half-pizza-size" value="M" data-multiplier="1.0" checked>
+                                <div class="size-box">
+                                    <span class="size-letter">M</span>
+                                    <span class="size-label">Média (6 fatias)</span>
+                                </div>
+                            </label>
+                            <label class="size-option">
+                                <input type="radio" name="half-pizza-size" value="G" data-multiplier="1.25">
+                                <div class="size-box">
+                                    <span class="size-letter">G</span>
+                                    <span class="size-label">Grande (8 fatias)</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pricing & Button -->
+                    <div class="modal-action-row">
+                        <div class="price-container">
+                            <span class="price-label">Preço <span class="price-explanation" title="Preço cobrado pelo sabor de maior valor">(Pelo sabor de maior valor)</span></span>
+                            <span class="pizza-price" id="half-pizza-price">R$ 0,00</span>
+                        </div>
+                        <button class="btn btn-primary" id="btn-add-half-to-cart">
                             Adicionar ao Pedido <i data-lucide="shopping-cart"></i>
                         </button>
                     </div>
@@ -291,7 +403,8 @@
                 <i data-lucide="check-circle-2"></i>
             </div>
             <h2>Pedido Confirmado!</h2>
-            <p>Sua pizza maravilhosa já está sendo preparada com muito carinho por nossos pizzaiolos e em breve sairá para entrega.</p>
+            <p>Sua pizza maravilhosa já está sendo preparada com muito carinho por nossos pizzaiolos e em breve sairá
+                para entrega.</p>
             <div class="order-time-est">
                 <i data-lucide="clock"></i>
                 <div>
@@ -310,4 +423,5 @@
         lucide.createIcons();
     </script>
 </body>
+
 </html>
