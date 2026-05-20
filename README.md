@@ -9,16 +9,13 @@ Este projeto é um cardápio digital interativo de alta fidelidade e premium des
 Aqui estão algumas capturas de tela demonstrando o design e as principais interações da plataforma:
 
 ### Tela Principal (Hero & Cardápio)
-<!-- Substitua o caminho da imagem abaixo pelo link do print real quando disponível -->
-![Tela Principal - Visualização Desktop](caminho/para/print-tela-principal.png)
+<img width="1419" height="758" alt="image" src="https://github.com/user-attachments/assets/38b73026-d8c5-4650-9612-89df14f82e78" />
 
 ### Personalização da Pizza (Modal de Tamanhos)
-<!-- Substitua o caminho da imagem abaixo pelo link do print real quando disponível -->
-![Modal de Customização](caminho/para/print-modal-customizacao.png)
+<img width="1007" height="680" alt="image" src="https://github.com/user-attachments/assets/e1299213-bdf9-47d6-b7ab-01ab5d9ccc17" />
 
 ### Carrinho de Compras Lateral e Checkout
-<!-- Substitua o caminho da imagem abaixo pelo link do print real quando disponível -->
-![Carrinho Lateral Responsivo](caminho/para/print-carrinho.png)
+<img width="1422" height="759" alt="image" src="https://github.com/user-attachments/assets/06be0caf-69ec-4288-a4b4-c92dfcf4cc9f" />
 
 ---
 
