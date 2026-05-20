@@ -45,21 +45,10 @@ Aqui estão algumas capturas de tela demonstrando o design e as principais inter
 
 Como o projeto foi desenvolvido com tecnologias web nativas, não há necessidade de instalação de dependências ou etapas complexas de compilação.
 
-### Método 1: Abertura Direta
+### Abertura Direta
 1. Faça o download ou clone este repositório.
 2. Navegue até a pasta do projeto.
 3. Dê um duplo clique no arquivo `index.html` para abri-lo diretamente em seu navegador padrão.
-
-### Método 2: Servidor Local (Recomendado para Desenvolvimento)
-Para uma experiência de desenvolvimento ideal com suporte a recarregamentos automáticos:
-1. Abra o terminal na pasta raiz do projeto.
-2. Inicie um servidor estático leve de sua preferência. Por exemplo, utilizando Node.js:
-   ```bash
-   npx http-server
-   ```
-3. Acesse a URL indicada no terminal (geralmente `http://localhost:8080`).
-
----
 
 ## Estrutura de Pastas
 
